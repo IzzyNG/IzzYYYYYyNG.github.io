@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit</title>
+</head>
+<body>
+    <form action="" id="eventForm" method="post">
+        <label for="EventName">Event Name</label> <br>
+        <input type="text" id="EventName" name="EventName" placeholder="     Enter event name" required> <br>
+
+        <label for="Location">Location</label> <br>
+        <input type="text" id="Location" name="Location" placeholder="     Enter location of the event" required> <br>
+
+        <label for="StartTime">Start Time</label> <br>
+        <input type="text" id="StartTime" name="StartTime" placeholder="     Enter the expected time to start the event" required> <br>
+
+        <label for="EndTime">End Time</label> <br>
+        <input type="text" id="EndTime" name="EndTime" placeholder="     Enter the expected time to end the event" required> <br>
+
+        <label for="Date">Date</label> <br>
+        <input type="text" id="Date" name="Date" placeholder="     Enter event date" required> <br>
+        <textarea name="Description" id="Description" cols="30" rows="10" placeholder="     Enter event description..." required></textarea>
+        <input type="submit" value="Submit" id="submit" />
+    </form>
+    
+
+    <script>
+        document.getElementById('eventForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            const eventName = document.getElementById('EventName').value;
+            const location = document.getElementById('Location').value;
+            const startTime = document.getElementById('StartTime').value;
+            const endTime = document.getElementById('EndTime').value;
+            const date = document.getElementById('Date').value;
+            const description = document.getElementById('Description').value;
+
+            const eventData = {
+                eventName: eventName,
+                location: location,
+                startTime: startTime,
+                endTime: endTime,
+                date: date,
+                description: description
+            };
+
+            fetch('https://virtual-tour-nine.vercel.app/api/events', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // Add any additional headers as needed
+                },
+                body: JSON.stringify(eventData),
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Event submitted successfully:', data);
+                // Handle success response as needed
+            })
+            .catch(error => {
+                console.error('Error submitting event:', error);
+                // Handle errors appropriately
+            });
+        });
+    </script>
+
+    <style>
+        /* Add your CSS styles here */
+        body{
+        align-items: center;
+        justify-content: center;
+        
+    }
+    form{
+        margin: 50px 0 0 50px;
+        align-items: center;
+        display: inline-block;
+        justify-content: center;
+    }
+    label{
+        color: #0017E1;
+    }
+    input{
+        border-color: #0017E1;
+        border-radius: 10px;
+        height: 50px;
+        width: 527px;
+        margin-bottom: 25px;
+        
+    }
+    textarea{
+        border-color: #0017E1;
+        border-radius: 10px;
+        height: 400px;
+        width: 527px;   
+        margin-left: 100px;
+    }
+    button{
+        border: none;
+        border-radius: 20px;
+        background-color: #0017E1;
+        color: #ffff;
+        font-size: 40px;
+        height: 70px;
+        width: 527px;
+    }
+    </style>
+</body>
+</html>
